@@ -26,8 +26,18 @@ export const signup = async(req,res)=>{
 
         await user.save(); 
 
-        //jwt 
-        generateTokenAndSetCookie(res , user._id); 
+    //jwt 
+    generateTokenAndSetCookie(res , user._id); 
+    return res.status(201).json({success:true, message:"user created successfully" , 
+        user: {
+            ...user._doc, 
+            password : undefined
+        }
+    });
+
+
+
+
     }catch(error){
         return res.status(400).json({success:false, message:"email already exists"});
     }
