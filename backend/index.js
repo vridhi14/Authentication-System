@@ -10,6 +10,7 @@ app.get('/' , (req,res)=>{
     res.send("it is working well");
 })
 
+app.use(express.json()); 
 app.use("/api/auth" , authRoutes)
 
 app.listen(PORT , ()=>{
