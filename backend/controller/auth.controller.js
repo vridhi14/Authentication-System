@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
-import {user, User} from '../models/user.model.js' ; 
-
+import {User} from '../models/user.model.js' ; 
+import { generateTokenAndSetCookie } from '../utils/generateTokenAndSetCookie.js';
 export const signup = async(req,res)=>{
 
     const{email , password , name } = req.body; 
@@ -21,7 +21,7 @@ export const signup = async(req,res)=>{
             password : hashedPassword , 
             name , 
             verificationToken , 
-            verificationTokenExpiresAt: Date.now()/24*60*60*100 //2hrs
+            verificationTokenExpiresAt: Date.now() + 2 * 60 * 60 * 1000
         })
 
         await user.save(); 
@@ -39,7 +39,7 @@ export const signup = async(req,res)=>{
 
 
     }catch(error){
-        return res.status(400).json({success:false, message:"email already exists"});
+        return res.status(400).json({success:false, message:error.message});
     }
 }
 export const logout= async(req,res)=>{
